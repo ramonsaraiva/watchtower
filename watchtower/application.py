@@ -14,3 +14,17 @@ def create_app():
 
 
 app = create_app()
+
+
+@app.cli.command()
+def create_db():
+    from .users.models import (
+        User,
+        Fingerprint,
+    )
+    db.create_all()
+
+
+@app.cli.command()
+def drop_db():
+    db.drop_all()
