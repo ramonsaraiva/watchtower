@@ -3,8 +3,9 @@ import os
 from flask import Flask
 
 from .database import db
-from .users.models import *
+from .devices.models import *
 from .events.models import *
+from .users.models import *
 
 def create_app():
     app = Flask(__name__)
