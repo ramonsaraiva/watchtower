@@ -3,7 +3,8 @@ import os
 from flask import Flask
 
 from .database import db
-
+from .users.models import *
+from .events.models import *
 
 def create_app():
     app = Flask(__name__)
@@ -18,10 +19,6 @@ app = create_app()
 
 @app.cli.command()
 def create_db():
-    from .users.models import (
-        User,
-        Fingerprint,
-    )
     db.create_all()
 
 
