@@ -4,7 +4,10 @@ from flask_restful import (
     Resource,
 )
 
-from ..events.factories import SessionFactory
+from ..events.factories import (
+    EventFactory,
+    SessionFactory,
+)
 from ..users.models import *
 from ..devices.models import *
 from ..events.models import *
@@ -22,17 +25,29 @@ class EventResource(Resource):
         'dh': 'document hostname',
         'dp': 'page path',
         'dt': 'page title',
-        'ec': 'event category',
-        'en': 'event name',
         'ed': 'event data',
     }
 
     def parser(self):
+        """
+        Parses an event.
+
+        # sk    Session key
+        # uid   User identificator
+        # ts    Timestamp
+        # ua    User Agent
+        # ec    Event category
+        # en    Event name
+        # ed    Event data
+        """
         parser = reqparse.RequestParser()
-        parser.add_argument('sk', type=str, required=False)
-        parser.add_argument('uid', type=str, required=False)
-        parser.add_argument('ts', type=str, required=False)
+        parser.add_argument('sk', type=str)
+        parser.add_argument('uid', type=str)
+        parser.add_argument('ts', type=str, required=True)
         parser.add_argument('ua', type=str, required=True)
+        parser.add_argument('ec', type=str, required=True)
+        parser.add_argument('en', type=str, required=True)
+        parser.add_argument('ed', type=dict)
         return parser
 
     def get(self):
@@ -59,6 +74,8 @@ class EventResource(Resource):
 
         with db.session.no_autoflush:
             session = SessionFactory.make(args)
+            event = EventFactory.make(session, args)
+
             db.session.add(session)
             db.session.commit()
 
