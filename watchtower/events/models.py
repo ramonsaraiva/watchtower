@@ -29,10 +29,9 @@ class Session(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
             'key': self.key,
-            'fingerprint_id': self.fingerprint_id,
-            'user_agent_id': self.user_agent_id,
+            'user_agent': self.user_agent.serialize(),
+            'events': [e.serialize() for e in self.events_session]
         }
 
 
@@ -46,7 +45,6 @@ class EventCategory(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
             'name': self.name
         }
 
@@ -78,8 +76,6 @@ class Event(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
-            'session_id': self.session_id,
             'category': self.category.name,
             'name': self.name,
             'data': self.data,

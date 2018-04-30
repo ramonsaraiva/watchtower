@@ -13,8 +13,8 @@ class User(db.Model):
 
     def serialize(self):
         return {
-            'id': self.id,
-            'identifier': self.identifier
+            'identifier': self.identifier,
+            'fingerprints': [f.serialize() for f in self.fingerprints_user]
         }
 
 
@@ -47,7 +47,6 @@ class Fingerprint(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'location': self.location.serialize()
+            'location': self.location.serialize(),
+            'sessions': [s.serialize() for s in self.sessions_fingerprint]
         }

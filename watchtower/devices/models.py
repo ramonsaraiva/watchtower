@@ -18,7 +18,6 @@ class Component(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
             'name': f'{self.brand} {self.family} {self.model}',
             'version': f'{self.major} {self.minor} {self.patch} {self.patch_minor}'
         }
@@ -55,10 +54,4 @@ class UserAgent(db.Model):
         return f'<UserAgent {self.os} {self.device} {self.ua}>'
 
     def serialize(self) -> dict:
-        return {
-            'id': self.id,
-            'raw': self.raw,
-            'device_id': self.device_id,
-            'os_id': self.os_id,
-            'ua_id': self.ua_id
-        }
+        return self.raw

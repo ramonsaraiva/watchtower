@@ -41,19 +41,11 @@ class EventResource(Resource):
     def get(self):
         """Temporary visualizer."""
         users = User.query.all()
-        fingerprints = Fingerprint.query.all()
-        sessions = Session.query.all()
-        events = Event.query.all()
-        uas = UserAgent.query.all()
-        components = Component.query.all()
+        fingerprints = Fingerprint.query.filter_by(user=None)
 
         return {
-            'users': [user.serialize() for user in users],
-            'fingerprints': [fp.serialize() for fp in fingerprints],
-            'sessions': [s.serialize() for s in sessions],
-            'events': [e.serialize() for e in events],
-            'uas': [ua.serialize() for ua in uas],
-            'components': [c.serialize() for c in components]
+            'users': [u.serialize() for u in users],
+            'fingerprints': [f.serialize() for f in fingerprints]
         }
 
     def post(self):

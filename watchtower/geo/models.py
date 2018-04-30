@@ -35,7 +35,6 @@ class State(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
             'name': self.name,
             'code': self.code,
             'country': self.country.serialize()
@@ -58,7 +57,6 @@ class City(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'id': self.id,
             'name': self.name,
             'state': self.state.serialize()
         }
@@ -80,10 +78,14 @@ class Location(db.Model):
     def __repr__(self) -> str:
         return f'<Location {self.latitude} {self.longitude}>'
 
+    @property
+    def minified(self) -> str:
+        return (f'{self.city.state.country.code} - '
+                f'{self.city.state.code} - '
+                f'{self.city.name}')
+
     def serialize(self) -> dict:
         return {
-            'city': self.city.serialize(),
-            'postal_code': self.postal_code,
-            'latitude': float(self.latitude),
-            'longitude': float(self.longitude)
+            'address': self.minified,
+            'position': f'{float(self.latitude)}, {float(self.longitude)}',
         }
