@@ -78,7 +78,7 @@ class Event(db.Model):
     def serialize(self) -> dict:
         return {
             'id': self.id,
+            'category': self.category.name,
             'name': self.name,
-            'category_id': self.category_id,
             'session_id': self.session_id,
         }

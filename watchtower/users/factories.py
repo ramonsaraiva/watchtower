@@ -24,7 +24,10 @@ class FingerprintFactory:
 
     @staticmethod
     def make(args, user=None):
-        # temporary fake fingerprint
+        # user might have multiple fingerprints in future
+        if user and user.fingerprints:
+            return user.fingerprints[0]
+
         fingerprint = Fingerprint()
         fingerprint.user = user
         fingerprint.created = pendulum.utcnow()

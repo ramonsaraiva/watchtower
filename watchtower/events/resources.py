@@ -15,19 +15,6 @@ from ..events.models import *
 
 class EventResource(Resource):
 
-    # used as reference
-    PARAMETERS = {
-        'sk': 'session key (secrets.token_hex())',
-        'uid': 'user identifier',
-        'ts': 'timestamp',
-        'ua': 'user agent',
-        'ip': 'ip address',
-        'dh': 'document hostname',
-        'dp': 'page path',
-        'dt': 'page title',
-        'ed': 'event data',
-    }
-
     def parser(self):
         """
         Parses an event.
@@ -45,6 +32,7 @@ class EventResource(Resource):
         parser.add_argument('uid', type=str)
         parser.add_argument('ts', type=str, required=True)
         parser.add_argument('ua', type=str, required=True)
+        parser.add_argument('ip', type=str, required=True)
         parser.add_argument('ec', type=str, required=True)
         parser.add_argument('en', type=str, required=True)
         parser.add_argument('ed', type=dict)
@@ -79,4 +67,4 @@ class EventResource(Resource):
             db.session.add(session)
             db.session.commit()
 
-        return {'success': True}
+        return {'key': session.key}
