@@ -22,14 +22,27 @@ class UserAgent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     raw = db.Column(db.String(512))
 
-    device_id = db.Column(db.Integer, db.ForeignKey('component.id'))
-    device = db.relationship('Component', backref=db.backref('ua_devices'))
+    device_id = db.Column(
+        db.Integer,
+        db.ForeignKey('component.id', ondelete='CASCADE'),
+        nullable=False)
+    device = db.relationship(
+        'Component', backref=db.backref('ua_device'),
+        foreign_keys=[device_id])
 
-    os_id = db.Column(db.Integer, db.ForeignKey('component.id'))
-    os = db.relationship('Component', backref=db.backref('ua_oss'))
+    os_id = db.Column(
+        db.Integer,
+        db.ForeignKey('component.id', ondelete='CASCADE'),
+        nullable=False)
+    os = db.relationship(
+        'Component', backref=db.backref('ua_os'), foreign_keys=[os_id])
 
-    ua_id = db.Column(db.Integer, db.ForeignKey('component.id'))
-    ua = db.relationship('Component', backref=db.backref('ua_uas'))
+    ua_id = db.Column(
+        db.Integer,
+        db.ForeignKey('component.id', ondelete='CASCADE'),
+        nullable=False)
+    ua = db.relationship(
+        'Component', backref=db.backref('ua_ua'), foreign_keys=[ua_id])
 
     def __repr__(self) -> str:
         return f'<UserAgent {self.os} {self.device} {self.ua}>'

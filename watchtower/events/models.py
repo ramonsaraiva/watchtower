@@ -6,11 +6,17 @@ class Session(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String(256))
 
-    fingerprint_id = db.Column(db.Integer, db.ForeignKey('fingerprint.id'))
+    fingerprint_id = db.Column(
+        db.Integer,
+        db.ForeignKey('fingerprint.id', ondelete='CASCADE'),
+        nullable=False)
     fingerprint = db.relationship(
         'Fingerprint', backref=db.backref('sessions_fingerprint'))
 
-    user_agent_id = db.Column(db.Integer, db.ForeignKey('user_agent.id'))
+    user_agent_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user_agent.id', ondelete='CASCADE'),
+        nullable=False)
     user_agent = db.relationship(
         'UserAgent', backref=db.backref('sessions_ua'))
 
