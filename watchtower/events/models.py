@@ -33,6 +33,13 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
 
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey('session.id', ondelete='CASCADE'),
+        nullable=False)
+    session = db.relationship(
+        'Session', backref=db.backref('events'))
+
     created = db.Column(db.DateTime)
 
     def __repr__(self) -> str:
