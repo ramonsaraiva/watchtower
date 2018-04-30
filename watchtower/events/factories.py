@@ -1,3 +1,4 @@
+import pendulum
 import secrets
 
 from ..devices.factories import UserAgentFactory
@@ -28,11 +29,14 @@ class SessionFactory:
                     session.fingerprint.assign_ownership(user)
                 return session
 
-        session = Session()
-        session.key = args['sk'] or secrets.token_hex()
-        session.fingerprint = FingerprintFactory.make(args, user)
-        session.user_agent = UserAgentFactory.make(args['ua'])
-        return session
+        utcnow = pendulum.utcnow()
+        expiration = utcnow.add(days=1)
+        return Session(
+            key=args['sk'] or secrets.token_hex(),
+            fingerprint=FingerprintFactory.make(args, user),
+            user_agent=UserAgentFactory.make(args['ua']),
+            created=utcnow,
+            expiration=expiration)
 
 
 class EventCategoryFactory:

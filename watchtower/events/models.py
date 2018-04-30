@@ -1,3 +1,5 @@
+import pendulum
+
 from ..database import db
 
 
@@ -23,13 +25,24 @@ class Session(db.Model):
     ip_address = db.Column(db.String(64))
 
     created = db.Column(db.DateTime)
+    expiration = db.Column(db.DateTime)
 
     def __repr__(self) -> str:
         return f'<Session {self.key}>'
 
+    @property
+    def p_created(self):
+        return pendulum.instance(self.created)
+
+    @property
+    def p_expiration(self):
+        return pendulum.instance(self.expiration)
+
     def serialize(self) -> dict:
         return {
             'key': self.key,
+            'created': self.p_created.to_datetime_string(),
+            'expiration': self.p_expiration.to_datetime_string(),
             'user_agent': self.user_agent.serialize(),
             'events': [e.serialize() for e in self.events_session]
         }
