@@ -7,10 +7,14 @@ from .devices.models import *
 from .events.models import *
 from .users.models import *
 
+from .events.routes import blueprint as events_bp
+
+
 def create_app():
     app = Flask(__name__)
     environment = os.environ.get('FLASK_ENV', 'development')
     app.config.from_object(f'watchtower.config.{environment}.Config')
+    app.register_blueprint(events_bp)
     db.init_app(app)
     return app
 
