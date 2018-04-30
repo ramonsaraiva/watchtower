@@ -8,7 +8,7 @@ class Config(BaseConfig):
     DEBUG = True
     TESTING = True
 
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{BaseConfig.BASE_DIR.joinpath('db.sqlite')}"
+    SQLALCHEMY_DATABASE_URI = f'postgresql://watchtower:watchtower@127.0.0.1:5432/watchtower'
     SQLALCHEMY_ECHO = True
 
     GEOIP_READER = geoip2.database.Reader(BaseConfig.BASE_DIR.joinpath('geo.mmdb'))

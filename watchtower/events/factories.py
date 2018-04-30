@@ -30,7 +30,6 @@ class SessionFactory:
 
         session = Session()
         session.key = args['sk'] or secrets.token_hex()
-
         session.fingerprint = FingerprintFactory.make(args, user)
         session.user_agent = UserAgentFactory.make(args['ua'])
         return session
@@ -43,10 +42,7 @@ class EventCategoryFactory:
         category = EventCategory.query.filter_by(name=name).first()
         if category is not None:
             return category
-
-        category = EventCategory()
-        category.name = name
-        return category
+        return EventCategory(name=name)
 
 
 class EventFactory:
@@ -54,9 +50,8 @@ class EventFactory:
     @staticmethod
     def make(session, args):
         category = EventCategoryFactory.make(args['ec'])
-
-        event = Event()
-        event.category = category
-        event.session = session
-        event.name = args['en']
-        return event
+        return Event(
+            category=category,
+            session=session,
+            name=args['en'],
+            data=args['ed'])

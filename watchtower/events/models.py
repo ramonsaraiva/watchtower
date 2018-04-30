@@ -55,6 +55,7 @@ class Event(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
+    data = db.Column(db.JSON)
 
     category_id = db.Column(
         db.Integer,
@@ -78,7 +79,8 @@ class Event(db.Model):
     def serialize(self) -> dict:
         return {
             'id': self.id,
+            'session_id': self.session_id,
             'category': self.category.name,
             'name': self.name,
-            'session_id': self.session_id,
+            'data': self.data,
         }
