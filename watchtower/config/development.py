@@ -9,4 +9,6 @@ class Config(BaseConfig):
     TESTING = True
 
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{BaseConfig.BASE_DIR.joinpath('db.sqlite')}"
+    SQLALCHEMY_ECHO = True
+
     GEOIP_READER = geoip2.database.Reader(BaseConfig.BASE_DIR.joinpath('geo.mmdb'))

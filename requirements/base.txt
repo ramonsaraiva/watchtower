@@ -4,3 +4,4 @@ Flask-SQLAlchemy==2.3.2
 python-dotenv==0.8.2
 pendulum==1.5.1
 ua-parser==0.8.0
+geoip2==2.8.0
