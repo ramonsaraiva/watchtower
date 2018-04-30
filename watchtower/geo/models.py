@@ -10,6 +10,13 @@ class Country(db.Model):
     def __repr__(self) -> str:
         return f'<Country {self.code} {self.name}>'
 
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'code': self.code
+        }
+
 
 class State(db.Model):
 
@@ -26,6 +33,14 @@ class State(db.Model):
     def __repr__(self) -> str:
         return f'<State {self.code} {self.name}>'
 
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'code': self.code,
+            'country': self.country.serialize()
+        }
+
 
 class City(db.Model):
 
@@ -40,6 +55,13 @@ class City(db.Model):
 
     def __repr__(self) -> str:
         return f'<City {self.name}>'
+
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'state': self.state.serialize()
+        }
 
 
 class Location(db.Model):
@@ -57,3 +79,11 @@ class Location(db.Model):
 
     def __repr__(self) -> str:
         return f'<Location {self.latitude} {self.longitude}>'
+
+    def serialize(self) -> dict:
+        return {
+            'city': self.city.serialize(),
+            'postal_code': self.postal_code,
+            'latitude': float(self.latitude),
+            'longitude': float(self.longitude)
+        }

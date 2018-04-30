@@ -33,9 +33,6 @@ class Fingerprint(db.Model):
     location = db.relationship(
         'Location', backref=db.backref('fingerprints_location'))
 
-    latitude = db.Column(db.Numeric(9, 6))
-    longitude = db.Column(db.Numeric(9, 6))
-
     created = db.Column(db.DateTime)
 
     def __repr__(self) -> str:
@@ -52,4 +49,5 @@ class Fingerprint(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'location': self.location.serialize()
         }
