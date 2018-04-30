@@ -4,7 +4,7 @@ from ..database import db
 class Session(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    key = db.Column(db.String(256))
+    key = db.Column(db.String(64))
 
     fingerprint_id = db.Column(
         db.Integer,
@@ -28,17 +28,33 @@ class Session(db.Model):
         return f'<Session {self.key}>'
 
 
+class EventCategory(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+
+    def __repr__(self) -> str:
+        return f'<EventCategory {self.name}>'
+
+
 class Event(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
+
+    category_id = db.Column(
+        db.Integer,
+        db.ForeignKey('category.id', ondelete='CASCADE'),
+        nullable=False)
+    category = db.relationship(
+        'EventCategory', backref=db.backref('events_category'))
 
     session_id = db.Column(
         db.Integer,
         db.ForeignKey('session.id', ondelete='CASCADE'),
         nullable=False)
     session = db.relationship(
-        'Session', backref=db.backref('events'))
+        'Session', backref=db.backref('events_session'))
 
     created = db.Column(db.DateTime)
 
