@@ -47,6 +47,6 @@ class Fingerprint(db.Model):
 
     def serialize(self) -> dict:
         return {
-            'location': self.location.serialize(),
+            'location': self.location.serialize() if self.location else None,
             'sessions': [s.serialize() for s in self.sessions_fingerprint]
         }
