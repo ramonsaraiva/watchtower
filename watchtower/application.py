@@ -6,6 +6,7 @@ from .database import db
 from .devices.models import *
 from .events.models import *
 from .users.models import *
+from .geo.models import *
 
 from .events.routes import blueprint as events_bp
 

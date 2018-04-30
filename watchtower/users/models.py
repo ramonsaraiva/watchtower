@@ -18,6 +18,7 @@ class User(db.Model):
         }
 
 
+
 class Fingerprint(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -25,7 +26,15 @@ class Fingerprint(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
     user = db.relationship(
-        'User', backref=db.backref('fingerprints'))
+        'User', backref=db.backref('fingerprints_user'))
+
+    location_id = db.Column(
+        db.Integer, db.ForeignKey('location.id', ondelete='CASCADE'))
+    location = db.relationship(
+        'Location', backref=db.backref('fingerprints_location'))
+
+    latitude = db.Column(db.Numeric(9, 6))
+    longitude = db.Column(db.Numeric(9, 6))
 
     created = db.Column(db.DateTime)
 

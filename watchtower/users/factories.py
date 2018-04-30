@@ -1,5 +1,7 @@
 import pendulum
 
+from flask import current_app as app
+
 from .models import (
     Fingerprint,
     User,
@@ -25,10 +27,14 @@ class FingerprintFactory:
     @staticmethod
     def make(args, user=None):
         # user might have multiple fingerprints in future
-        if user and user.fingerprints:
+        if user and user.fingerprints_user:
             return user.fingerprints[0]
 
         fingerprint = Fingerprint()
         fingerprint.user = user
+
+        geo_data = app.config['GEOIP_READER'].city(args['ip'])
+        # create geo data models
+
         fingerprint.created = pendulum.utcnow()
         return fingerprint
