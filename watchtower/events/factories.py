@@ -46,7 +46,7 @@ class EventCategoryFactory:
         category = EventCategory.query.filter_by(name=name).first()
         if category is not None:
             return category
-        return EventCategory(name=name)
+        return EventCategory(name=name, created=pendulum.utcnow())
 
 
 class EventFactory:
@@ -58,4 +58,5 @@ class EventFactory:
             category=category,
             session=session,
             name=args['en'],
-            data=args['ed'])
+            data=args['ed'],
+            created=pendulum.utcnow())
