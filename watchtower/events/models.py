@@ -27,6 +27,14 @@ class Session(db.Model):
     def __repr__(self) -> str:
         return f'<Session {self.key}>'
 
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'key': self.key,
+            'fingerprint_id': self.fingerprint_id,
+            'user_agent_id': self.user_agent_id,
+        }
+
 
 class EventCategory(db.Model):
 
@@ -36,6 +44,12 @@ class EventCategory(db.Model):
     def __repr__(self) -> str:
         return f'<EventCategory {self.name}>'
 
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name
+        }
+
 
 class Event(db.Model):
 
@@ -44,7 +58,7 @@ class Event(db.Model):
 
     category_id = db.Column(
         db.Integer,
-        db.ForeignKey('category.id', ondelete='CASCADE'),
+        db.ForeignKey('event_category.id', ondelete='CASCADE'),
         nullable=False)
     category = db.relationship(
         'EventCategory', backref=db.backref('events_category'))
@@ -60,3 +74,11 @@ class Event(db.Model):
 
     def __repr__(self) -> str:
         return f'<Event {self.name}>'
+
+    def serialize(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'category_id': self.category_id,
+            'session_id': self.session_id,
+        }
