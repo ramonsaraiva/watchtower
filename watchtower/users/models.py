@@ -18,7 +18,6 @@ class User(db.Model):
         }
 
 
-
 class Fingerprint(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)

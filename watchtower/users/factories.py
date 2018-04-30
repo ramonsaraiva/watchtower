@@ -18,10 +18,9 @@ class UserFactory:
         if user is not None:
             return user
 
-        user = User()
-        user.identifier = identifier
-        user.created = pendulum.utcnow()
-        return user
+        return User(
+            identifier=identifier,
+            created=pendulum.utcnow())
 
 
 class FingerprintFactory:

@@ -19,7 +19,7 @@ class Component(db.Model):
     def serialize(self) -> dict:
         return {
             'name': f'{self.brand} {self.family} {self.model}',
-            'version': f'{self.major} {self.minor} {self.patch} {self.patch_minor}'
+            'version': f'{self.major} {self.minor} {self.patch}'
         }
 
 

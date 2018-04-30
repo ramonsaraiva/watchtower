@@ -1,4 +1,3 @@
-from flask import current_app as app
 from flask_restful import (
     reqparse,
     Resource,
@@ -8,9 +7,6 @@ from ..events.factories import (
     EventFactory,
     SessionFactory,
 )
-from ..users.models import *
-from ..devices.models import *
-from ..events.models import *
 
 
 class EventResource(Resource):
@@ -40,6 +36,7 @@ class EventResource(Resource):
 
     def get(self):
         """Temporary visualizer."""
+        from users.models import User, Fingerprint
         users = User.query.all()
         fingerprints = Fingerprint.query.filter_by(user=None)
 
@@ -54,7 +51,7 @@ class EventResource(Resource):
 
         with db.session.no_autoflush:
             session = SessionFactory.make(args)
-            event = EventFactory.make(session, args)
+            EventFactory.make(session, args)
 
             db.session.add(session)
             db.session.commit()
