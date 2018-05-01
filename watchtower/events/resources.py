@@ -3,6 +3,7 @@ from flask_restful import (
     Resource,
 )
 
+from ..database import db
 from ..events.factories import (
     EventFactory,
     SessionFactory,
@@ -34,9 +35,9 @@ class EventResource(Resource):
         parser.add_argument('ed', type=dict)
         return parser
 
-    def get(self):
+    def get(self) -> dict:
         """Temporary visualizer."""
-        from users.models import User, Fingerprint
+        from ..users.models import User, Fingerprint
         users = User.query.all()
         fingerprints = Fingerprint.query.filter_by(user=None)
 
@@ -45,7 +46,7 @@ class EventResource(Resource):
             'fingerprints': [f.serialize() for f in fingerprints]
         }
 
-    def post(self):
+    def post(self) -> dict:
         parser = self.parser()
         args = parser.parse_args()
 
