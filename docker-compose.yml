@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: watchtower
+      POSTGRES_PASSWORD: watchtower
+      POSTGRES_DB: watchtower
+
+  app:
+    build: .
+    command: flask run --host 0.0.0.0
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    links:
+      - db
